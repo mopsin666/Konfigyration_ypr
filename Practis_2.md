@@ -4,17 +4,19 @@
 
 pip show matplotlib
 
-![image](https://github.com/user-attachments/assets/f7d47b68-bce5-4434-a340-afd75529f38f)
+![image](https://github.com/user-attachments/assets/95e71642-e462-4cb8-8d48-aa2d2082d135)
+
 
 Задание 2
 
 npm show express
 
-![image](https://github.com/user-attachments/assets/0e270f8f-ca37-4304-ac8e-ab2a3e9f7e2d)
+![image](https://github.com/user-attachments/assets/6ffea599-f14b-4d81-9c53-ee1802d158bc)
+
+
 
 Задание 3
 
-Создаем 2 файла md.dot и ed.not
 
 digraph G {
 
@@ -35,6 +37,10 @@ digraph G {
     "matplotlib" -> "python-dateutil";
 
 }
+
+Генерация графика для matplotlib
+
+![image](https://github.com/user-attachments/assets/a280198b-660d-4dee-b47e-491336f2efef)
 
 
 digraph G {
@@ -103,102 +109,73 @@ digraph G {
 
 }
 
-$ dot -Tpng md.dot -o matplotlib_dependencies.png
-
-Генерация графика для matplotlib
-
-![image](https://github.com/user-attachments/assets/2cf3dc74-60f6-4dd8-897d-614bc0af0046)
 
 
 Генерация графика для express
 
-$ dot -Tpng ed.dot -o express_dependencies.png
 
-![image](https://github.com/user-attachments/assets/7ea8b2d0-5904-4f60-b4ff-8320d1761279)
-![image](https://github.com/user-attachments/assets/067b62ea-f609-4326-b80d-39e1f3cd5bd0)
-![image](https://github.com/user-attachments/assets/b075583b-1300-4a3d-9121-95645b44c425)
+![image](https://github.com/user-attachments/assets/4a23d185-2589-4b73-93dc-eb0af2b5a567)
+
 
 Задание 4
 
+include "globals.mzn";
+
 include "alldifferent.mzn";
 
-var 1..9: d1;  
+var 0..9: q1;
 
-var 0..9: d2; 
+var 0..9: q2;
 
-var 0..9: d3; 
+var 0..9: q3;
 
-var 0..9: d4; 
+var 0..9: q4;
 
-var 0..9: d5;  
+var 0..9: q5;
 
-var 0..9: d6; 
+var 0..9: q6;
 
-constraint alldifferent([d1, d2, d3, d4, d5, d6]);
+constraint alldifferent ([q1, q2, q3, q4, q5, q6]);
 
-constraint d1 + d2 + d3 = d4 + d5 + d6;
+constraint q3+q2+q1 = q6+q5+q4;
 
-solve minimize d1 + d2 + d3; 
+output ["ticket: ","\(q1)","\(q2)", "\(q3)","\(q4)", "\(q5)", "\(q6)",];
 
-![image](https://github.com/user-attachments/assets/6827304b-b224-48eb-8c58-be62207894f8)
+![image](https://github.com/user-attachments/assets/984a8739-6769-4b6e-b133-fd8f1f23a148)
+
 
 Задание 5
 
-% Use this editor as a MiniZinc scratch book
+array [0..2] of var 0..5: menu;
 
-set of int: MenuVersions = 1..6;
+array [0..2] of var 0..8: dropdown;
 
-set of int: DropdownVersions = 1..5;
+array [0..2] of var 0..2: icon;
 
-set of int: IconVersions = 1..2;
+constraint menu [0] == 1 /\ menu [2] == 0;
 
-array[MenuVersions] of int: menu = [150, 140, 130, 120, 110, 100];
+constraint dropdown [0] == 1 \/ dropdown [0] == 2;
 
-array[DropdownVersions] of int: dropdown = [230, 220, 210, 200, 180];
+constraint dropdown [2] == 0;
 
-array[IconVersions] of int: icons = [200, 100];
+constraint icon [1] == 0 /\ icon [2] == 0;
 
-var MenuVersions: selected_menu;
+constraint menu [1] == 0 /\ dropdown [1] == 8 /\ dropdown [0] == 1 \/ menu [1] != 0  /\ dropdown [0] == 2 /\ dropdown [1] <= 3;
 
-var DropdownVersions: selected_dropdown;
+constraint dropdown [0] == 2 /\ icon [0] == 2 \/ dropdown [0] == 1 /\ icon [0] ==1;
 
-var IconVersions: selected_icons;
+output [if (fix(icon[0] == 1)) then "root -> icons: \(icon)\n" endif];
 
-constraint
+output ["root -> "];
 
-    (selected_menu = 1 -> selected_dropdown in 1..3) /\
-    
-    (selected_menu = 2 -> selected_dropdown in 2..4) /\
-    
-    (selected_menu = 3 -> selected_dropdown in 3..5) /\
-    
-    (selected_menu = 4 -> selected_dropdown in 4..5) /\
-    
-    (selected_menu = 5 -> selected_dropdown = 5) /\
-    
-    (selected_dropdown = 1 -> selected_icons = 1) /\
-    
-    (selected_dropdown = 2 -> selected_icons in 1..2) /\
-    
-    (selected_dropdown = 3 -> selected_icons in 1..2) /\
-    
-    (selected_dropdown = 4 -> selected_icons in 1..2) /\
-    
-    (selected_dropdown = 5 -> selected_icons in 1..2);
+output [if (fix(icon[0] == 2)) then "Menu: \(menu) -> Dropdown:\(dropdown) -> " endif];
 
-solve satisfy;
+output [if (fix(dropdown[0] == 1)) then "Menu:\(menu)-> Dropdown:\(dropdown) -> " endif];
 
-output [
-    
-    "Selected menu version: \(menu[selected_menu])\n",
-    
-    "Selected dropdown version: \(dropdown[selected_dropdown])\n",
-    
-    "Selected icon version: \(icons[selected_icons])\n"
+output [if (fix(dropdown [0] != 1)) then "Icons: \(icon)" endif];
 
-];
+![image](https://github.com/user-attachments/assets/5a2b410c-588f-45d0-a8ad-b0b7c08d0075)
 
-![image](https://github.com/user-attachments/assets/7d68b950-b525-46f0-bc41-e43b66236112)
 
 Задание 6
 
