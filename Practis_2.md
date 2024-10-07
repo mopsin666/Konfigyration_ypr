@@ -179,43 +179,36 @@ output [if (fix(dropdown [0] != 1)) then "Icons: \(icon)" endif];
 
 Задание 6
 
-include "alldifferent.mzn";
+array [0..2] of var 0..2: sh;
 
-% Пакеты и их версии
+array [0..2] of var 0..2: ta;
 
-var 1..1: root_version;  % версия пакета root
+array [0..2] of var 0..2: fo;
 
-var 1..2: foo_version;  % версия пакета foo
+array [0..2] of var 0..5: le;
 
-var 1..2: left_version;  % версия пакета left
+array [0..2] of var 0..8: ro;
 
-var 1..2: right_version;  % версия пакета right
+array [0..2] of var 0..2: ri;
 
-var 1..2: shared_version;  % версия пакета shared
+constraint (fo[1]==0) \/ (fo[1]==1 /\ le[0]==1 /\ sh[0] >= 1) /\ (ri[0] == 1 /\ sh[0] < 2 /\ ta[0] == 1);
 
-var 1..2: target_version;  % версия пакета target
+constraint ro[0] == 1 /\ ro[1] == 0 /\ ro[2] == 0 /\ fo[0] == 1 /\ fo[2] == 0 /\ le[0] == 1 /\ le[1] == 0 /\ le[2] == 0;
 
-% Зависимости между пакетами
+constraint ri[0] == 1 /\ ri[1] == 0 /\ ri[2] == 0 /\ sh[1] == 0 /\ sh[2]==0 /\ ta[1] == 0/\ ta[2] == 0;
 
-constraint (root_version == 1) -> (foo_version == 1 \/ foo_version == 2);
+output [
 
-constraint (root_version == 1) -> (target_version == 2);
+  if(fix(ta[0] == 2)) then "root \(ro) требует target \(ta)\n" endif,
+  
+  if (fix(fo[1] == 0/\ ta[0] == 2)) then "root \(ro) требует foo \(fo)\n" endif,
+  
+  if (fix(fo[1] ==1 /\ sh[0] == 1)) then "root \(ro) требует foo \(fo) требует left \(le) и требует right \(ri) требует shared \(sh) требует target \(ta)\n" endif
 
-constraint (foo_version == 2) -> (left_version == 1);
+  ];
 
-constraint (foo_version == 2) -> (right_version == 1);
+![image](https://github.com/user-attachments/assets/bd9b00db-80bb-4254-afc9-67f8dfdd3185)
 
-constraint (left_version == 1) -> (shared_version == 1 \/ shared_version == 2);
-
-constraint (right_version == 1) -> (shared_version == 1);
-
-constraint (shared_version == 1) -> (target_version == 1 \/ target_version == 2);
-
-% Решение
-
-solve satisfy;
-
-![image](https://github.com/user-attachments/assets/9c000b77-65ea-4e0e-8b17-e1b670726be3)
 
 Задание 7
 
@@ -248,3 +241,6 @@ constraint
   );
 
 solve satisfy;
+
+![image](https://github.com/user-attachments/assets/8498d5ef-5939-45d9-befc-3872abdea283)
+
