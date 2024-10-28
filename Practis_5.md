@@ -6,6 +6,8 @@
 
 Задание 2
 
-![image](https://github.com/user-attachments/assets/ce2155f0-1357-4da2-800d-a99b50c448cc)
+![image](https://github.com/user-attachments/assets/71b74482-9dd8-4f87-bec5-911f7c6957b2)
 
-1
+Задание 3
+
+
