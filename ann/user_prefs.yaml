@@ -1,0 +1,14 @@
+preferences:
+  theme: "dark"
+  notifications: 
+    email: true
+    sms: false
+  recent_files:
+    - "report1.docx"
+    - "summary.pdf"
+    - "budget.xlsx"
+  max_recent_files: 10
+  font_size: 12
+  advanced:
+    dev_mode: false
+    cache_size: 256
