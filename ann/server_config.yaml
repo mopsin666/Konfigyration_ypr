@@ -1,9 +1,0 @@
-server:
-  hostname: "my-server"
-  port: 8080
-  max_connections: 100
-  logging: true
-  timeout: 30
-  health_check:
-    interval: 5
-    retries: 3
