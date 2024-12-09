@@ -1,0 +1,7 @@
+constants:
+  "def pi": "3.14159"
+  "def radius": "@{* 5 2}"
+  "def diameter": "@{* radius 2}"
+values:
+  area: "@{* pi @{* radius radius}}"
+  circumference: "@{* pi diameter}"
